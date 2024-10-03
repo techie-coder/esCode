@@ -17,7 +17,7 @@ const ProblemDetails = () => {
     const fetchProblem = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:3000/problem/${pId}`);
+        const response = await fetch(`https://escode.up.railway.app/problem/${pId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch problem details');
         }
@@ -36,7 +36,7 @@ const ProblemDetails = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/submissions/${pId}`, {
+        const response = await fetch(`https://escode.up.railway.app/submissions/${pId}`, {
           method: "GET",
           headers: {
             "authorization": localStorage.getItem('auth')
@@ -64,7 +64,7 @@ const ProblemDetails = () => {
         return;
       }
       setIsSubmitting(true);
-      const response = await fetch(`http://localhost:3000/submission/`, {
+      const response = await fetch(`https://escode.up.railway.app/submission`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const ProblemDetails = () => {
       const result = await response.json();
       alert(result.status);
       // Refresh submissions after successful submission
-      const updatedSubmissionsResponse = await fetch(`http://localhost:3000/submissions/${pId}`, {
+      const updatedSubmissionsResponse = await fetch(`https://escode.up.railway.app/submissions/${pId}`, {
         headers: { "authorization": localStorage.getItem('auth') }
       });
       const updatedSubmissionsData = await updatedSubmissionsResponse.json();
