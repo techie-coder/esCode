@@ -8,7 +8,7 @@ const ShowProblems = () => {
     useEffect(() => {
         const fetchProblems = async () => {
             try {
-                const response = await fetch('http://localhost:3000/problems');
+                const response = await fetch('https://escode.up.railway.app/problems');
                 const json = await response.json();
                 setProblems(json);
             } catch (error) {
