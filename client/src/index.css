@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.archivo-black-regular {
+    font-family: "Archivo Black", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+.manrope-700 {
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: bold;
+  }
+ 
+.manrope-400 {
+    font-family: "Manrope", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: bold;
+  }
+
+.h-70vh{
+  height: 70vh;
+}
+
+.w-70vh{
+  width: 70vw;
+}
+
+.h-80vh{
+  height: 80vh;
+}
+
+.h-60vh{
+  height:60vh;
+}
+  
