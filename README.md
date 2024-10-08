@@ -1,2 +1,2 @@
 # esCode
-Random starter full stack project
+A platform built for competitive coders with AI integrations for personalized learning experiences
