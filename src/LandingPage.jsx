@@ -1,5 +1,4 @@
 import {React, useEffect, useState} from 'react';
-import CircumIcon from "@klarr-agency/circum-icons-react"; 
 import {Link} from 'react-router-dom'
 
 function LandingPage() {
@@ -21,10 +20,9 @@ const NavBar = () => {
     return (
       <nav className="p-3 flex justify-between items-center bg-white text-black">
           <div id="brand" className="flex justify-between items-center align-center gap-2">
-          <CircumIcon name="wave_pulse_1" color="black" size={60} />
-          <b className="archivo-black-regular text-3xl">esCode</b>
+          <b className="archivo-black-regular text-3xl ml-16 drop-shadow-md">esCode</b>
           </div>
-          <div id="navMenu" className="hidden p-3 justify-between items-center md:flex align-center gap-2">
+          <div id="navMenu" className="hidden p-3 justify-between items-center md:flex align-center gap-2 text-lg">
           <a className="flex p-3 manrope-400 text-black hover:text-grey" href={`/problem/${n}`}>Playground</a>
           <a className="flex p-3 manrope-400 text-black hover:text-grey" href="#">Community</a>
           <a className="flex p-3 manrope-400 text-black hover:text-grey" href="#">Leaderboard</a>
@@ -36,9 +34,9 @@ const NavBar = () => {
 const Branding = () => {
 
   return (
-    <div className="flex flex-col items-center justify-center align-center py-20">
-      <p className="manrope-700 text-8xl">Play around with code</p><br/>
-      <p className="manrope-400 text-xl">Cracking interviews just got easier.</p>
+    <div className="flex flex-col items-center justify-center align-center py-20 mt-36">
+      <p className="manrope-700 text-7xl drop-shadow-md">Practice coding because</p><br/>
+      <p className="manrope-700 text-5xl">Cracking interviews ain't easy</p>
       <button className="relative flex m-5 p-3 min-h-4 min-w-auto rounded-xl items-center manrope-400 font-display font-medium  text-white hover:text-black bg-black hover:bg-white border-2 border-ash shadow-lg ease-out cursor-pointer">
             <Link to="/problems">Start Solving</Link></button>
     </div>
@@ -48,7 +46,7 @@ const Branding = () => {
 const Footer = () => {
   return (
     <footer className="bg-white shadow dark:bg-gray-800">
-        <div className="w-full mx-auto max-w-screen-xl p-4 manrope-400 md:flex md:items-center md:justify-between">
+        <div className="min w-screen-xl p-4 manrope-400 md:flex md:items-center md:justify-between">
           <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="#" className="hover:underline">esCode™</a>. All Rights Reserved.
         </span>
         <ul className="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">

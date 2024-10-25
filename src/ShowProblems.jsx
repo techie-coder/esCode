@@ -20,10 +20,12 @@ const ShowProblems = () => {
     }, []);
 
     const ProblemSet = ({ problemId, title, acceptance, difficulty }) => (
-        <tr>
-            <td className="pr-3"><a href={`/problem/${problemId}`}>{title}</a></td>
+        <tr className={problemId % 2 ===0 ? "bg-platinum h-12" : "bg-white h-12"}>
+            <td className="pr-3"><a className="hover:text-blue" href={`/problem/${problemId}`}>{title}</a></td>
             <td className="pr-3">{acceptance}</td>
-            <td>{difficulty}</td>
+            <td className={difficulty === "Easy" ? "text-green" : difficulty === "Medium" ? "text-yellow" : "text-red"}>
+                {difficulty}
+            </td>
         </tr>
     );
 
@@ -51,13 +53,13 @@ const ShowProblems = () => {
                         ))}
                     </div>
                 </div>
-                <div className="mt-5 min-w-1/2 flex flex-col items-center justify-between p-5 manrope-400 text-lg">
+                <div className="mt-5 w-full flex flex-col justify-start p-5 manrope-400 text-lg">
                     <table className="table-auto rounded-lg">
-                        <thead>
+                        <thead className='border-b-2 border-platinum'>
                             <tr>
-                                <th className="pr-3">Title</th>
-                                <th className="pr-3">Acceptance</th>
-                                <th>Difficulty</th>
+                                <th className="text-left">Title</th>
+                                <th className="text-left">Acceptance</th>
+                                <th className="text-left">Difficulty</th>
                             </tr>
                         </thead>
                         <tbody>
