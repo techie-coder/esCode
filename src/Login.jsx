@@ -90,7 +90,7 @@ const Login = () => {
               <div className="flex flex-row items-center justify-center mt-4">
                 <button
                   onClick={handleLogin}
-                  className="border-2 rounded-xl py-2 px-4 bg-black text-white hover:scale-105 transition duration-300"
+                  className="border-2 rounded-xl py-2 px-2 bg-black text-white hover:scale-105 transition duration-300"
                 >
                   Login
                 </button>

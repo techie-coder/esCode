@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import NavBar from './components/NavBar'
+import Editor from '@monaco-editor/react';
 
 const ProblemDetails = () => {
   const { pId } = useParams();
@@ -10,6 +11,8 @@ const ProblemDetails = () => {
   const [submission, setSubmission] = useState('');
   const [submissions, setSubmissions] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedLang, setSelectedLang] = useState('cpp');
+  const [defaultCode, setDefaultCode] = useState(`#include <iostream> \n using namespace std; \n\n int main(){\n return 0; \n}`)
 
   const navigate = useNavigate();
 
@@ -56,6 +59,22 @@ const ProblemDetails = () => {
     fetchSubmissions();
   }, [pId]);
 
+  useEffect(() => {
+      switch(selectedLang){
+        case 'cpp':
+          setDefaultCode(`#include <iostream> \nusing namespace std; \n\nint main(){\n\treturn 0; \n}`)
+          break;
+        
+        case 'c':
+          setDefaultCode(`#include <stdio.h> \nint main(){\n\treturn 0; \n}`)
+          break;
+        
+        case 'java':
+          setDefaultCode(`class MyApp\n{\n \tpublic static void main(String[] args)\n{\n\t\t System.out.println("Hello World");\n}\n}`)
+        
+      }
+  }, [selectedLang])
+
   const submitProblem = async () => {
     try {
       const getAuth = localStorage.getItem('auth')
@@ -99,6 +118,12 @@ const ProblemDetails = () => {
   if (error) return <div>Error: {error}</div>;
   if (!problem) return <div>No problem found</div>;
 
+  const handleLang = (event) => {
+    setSelectedLang(event.target.value);
+  }
+
+  
+
   return (
     <>
     <NavBar />
@@ -125,34 +150,42 @@ const ProblemDetails = () => {
         )}
       </div>
       </section>
-      <section class="min-h-full min-w-1/2 rounded-xl m-5 p-5">
-      <div className="h-70vh">
-        <h1 className="manrope-400">Code</h1>
-        <textarea 
-          id="code" 
-          placeholder="Write your code here"
-          rows="10"
-          className="min-w-full h-60vh bg-grey text-white p-5 mt-5 rounded-lg"
-          value={submission}
-          onChange={(e) => {
-            var textareas = document.getElementsByTagName('textarea');
-            var count = textareas.length;
-            for(var i=0;i<count;i++){
-                textareas[i].onkeydown = function(e){
-                    if(e.keyCode==9 || e.which==9){
-                        e.preventDefault();
-                        var s = this.selectionStart;
-                        this.value = this.value.substring(0,this.selectionStart) + "\t" + this.value.substring(this.selectionEnd);
-                        this.selectionEnd = s+1; 
-                    }}}
-            setSubmission(e.target.value)}}
+      <section className="min-w-1/2 pr-5">
+      <div className="">
+        <h1 className="manrope-400 text-2xl">Code</h1>
+        <section className='text-md'>
+          <select value={selectedLang} onChange={handleLang} className='bg-platinum border-[1.5px] border-black rounded-md mt-3'>
+          <option value="cpp">cpp</option>
+          <option value="c">c</option>
+          <option value="java">java</option>
+          </select>
+        </section>
+        <Editor
+          id="editor" 
+          height="65vh"
+          language={selectedLang}
+          options={
+            {
+              minimap: {
+                enabled: false
+              },
+            fontSize: 13,
+            cursorStyle: 'line',
+            wordWrap: 'on'
+          }}
+          theme="vs-dark"
+          className="min-w-full mt-1"
+          value={submission || defaultCode}
+          onChange={
+            (value) => setSubmission(value || '')
+          }
         />
       </div>
       <button 
           id='submit'  
           onClick={submitProblem}
           disabled={isSubmitting}
-          className="p-3 bg-grey text-white rounded-lg"
+          className="p-2 bg-grey text-white rounded-md mt-5"
         >
           {isSubmitting ? 'Submitting...' : 'Submit'}
         </button>
@@ -190,5 +223,6 @@ const ShowSubmissionDetails = ({ submission, status }) => {
     </div>
   );
 };
+
 
 export default ProblemDetails;
