@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import NavBar from './components/NavBar'
 import Editor from '@monaco-editor/react';
 import PATH from './PATH'
+import TestCase from './components/TestCase';
 
 
 const ProblemDetails = () => {
@@ -12,7 +13,6 @@ const ProblemDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [submission, setSubmission] = useState('');
-  const [submissions, setSubmissions] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedLang, setSelectedLang] = useState('python');
   const [defaultCode, setDefaultCode] = useState('')
@@ -37,29 +37,6 @@ const ProblemDetails = () => {
     };
 
     fetchProblem();
-  }, [pId]);
-
-  useEffect(() => {
-    const fetchSubmissions = async () => {
-      try {
-        const response = await fetch(`${PATH}/submissions/${pId}`, {
-          method: "GET",
-          headers: {
-            "authorization": localStorage.getItem('auth')
-          }
-        });
-        if (!response.ok) {
-          throw new Error("Error loading submissions");
-        }
-        const json = await response.json();
-        setSubmissions(json.submissions);
-      } catch (err) {
-        console.error(err.message);
-        setSubmissions([]);
-      }
-    };
-
-    fetchSubmissions();
   }, [pId]);
 
   useEffect(() => {
@@ -108,14 +85,6 @@ const ProblemDetails = () => {
 
       alert(`Test cases passed : ${responseJson.test_cases_passed}`);
 
-      if(response){
-        const updatedSubmissionsResponse = await fetch(`${PATH}/submissions/${pId}`, {
-          headers: { "authorization": localStorage.getItem('auth') }
-        });
-        const updatedSubmissionsData = await updatedSubmissionsResponse.json();
-        setSubmissions(updatedSubmissionsData.submissions);
-      }
-
     } catch (err) {
       alert(`Error: ${err.message}`);
     } finally {
@@ -130,8 +99,8 @@ const ProblemDetails = () => {
   const handleLang = (event) => {
     setSelectedLang(event.target.value);
   }
-
   
+  const testCases = problem.testCases;
 
   return (
     <>
@@ -144,19 +113,9 @@ const ProblemDetails = () => {
         testCases={problem.testCases}
         sampleOutput={problem.sampleOutput}
       />
-      <div className="py-5">
-        <h3>Submissions</h3>
-        {submissions.length > 0 ? (
-          submissions.map((sub, index) => (
-            <ShowSubmissionDetails
-              key={index}
-              submission={sub.submission}
-              status={sub.status}
-            />
-          ))
-        ) : (
-          <p>No submissions yet.</p>
-        )}
+      <h3 className="text-xl manrope-700">Test Cases</h3>
+      <div className="grid grid-rows-3">
+        {Array.isArray(testCases) && testCases.map((element, index) => (<TestCase key={index} index={index} testCase={element.input}/>))}
       </div>
       </section>
       <section className="min-w-1/2 pr-5">
