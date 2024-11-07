@@ -17,6 +17,9 @@ const ProblemDetails = () => {
   const [selectedLang, setSelectedLang] = useState('python');
   const [defaultCode, setDefaultCode] = useState('')
 
+  const [failedCases, setFailedCases] = useState([]);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -82,8 +85,10 @@ const ProblemDetails = () => {
       console.log(submission);
       
       const responseJson = await response.json();
+      setFailedCases(responseJson.failedCases);
+      setHasSubmitted(true);
 
-      alert(`Test cases passed : ${responseJson.test_cases_passed}`);
+      alert(`failed cases : ${failedCases}`);
 
     } catch (err) {
       alert(`Error: ${err.message}`);
@@ -115,7 +120,7 @@ const ProblemDetails = () => {
       />
       <h3 className="text-xl manrope-700">Test Cases</h3>
       <div className="grid grid-rows-3">
-        {Array.isArray(testCases) && testCases.map((element, index) => (<TestCase key={index} index={index} testCase={element.input}/>))}
+        {Array.isArray(testCases) && testCases.map((element, index) => (<TestCase key={index} index={index} testCase={element.input} failedCases={failedCases} hasSubmitted={hasSubmitted}/>))}
       </div>
       </section>
       <section className="min-w-1/2 pr-5">
