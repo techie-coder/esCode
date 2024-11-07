@@ -4,6 +4,7 @@ import NavBar from './components/NavBar';
 import { Icon } from 'react-icons-kit';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye';
+import PATH from './PATH';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -32,7 +33,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://escode.up.railway.app/login', {
+      const response = await fetch(`${PATH}/login`, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
       });

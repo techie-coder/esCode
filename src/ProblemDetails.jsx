@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import NavBar from './components/NavBar'
 import Editor from '@monaco-editor/react';
+import PATH from './PATH'
 
 const ProblemDetails = () => {
+
   const { pId } = useParams();
   const [problem, setProblem] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +14,7 @@ const ProblemDetails = () => {
   const [submissions, setSubmissions] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedLang, setSelectedLang] = useState('cpp');
-  const [defaultCode, setDefaultCode] = useState(`#include <iostream> \n using namespace std; \n\n int main(){\n return 0; \n}`)
+  const [defaultCode, setDefaultCode] = useState(`#include <iostream> \n using namespace std; \n\n int main(int a, int b){\n return 0; \n}`)
 
   const navigate = useNavigate();
 
@@ -20,7 +22,7 @@ const ProblemDetails = () => {
     const fetchProblem = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`https://escode.up.railway.app/problem/${pId}`);
+        const response = await fetch(`${PATH}/problem/${pId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch problem details');
         }
@@ -39,7 +41,7 @@ const ProblemDetails = () => {
   useEffect(() => {
     const fetchSubmissions = async () => {
       try {
-        const response = await fetch(`https://escode.up.railway.app/submissions/${pId}`, {
+        const response = await fetch(`${PATH}/submissions/${pId}`, {
           method: "GET",
           headers: {
             "authorization": localStorage.getItem('auth')
@@ -62,19 +64,19 @@ const ProblemDetails = () => {
   useEffect(() => {
       switch(selectedLang){
         case 'cpp':
-          setDefaultCode(`#include <iostream> \nusing namespace std; \n\nint main(){\n\treturn 0; \n}`)
+          setDefaultCode(`#include <iostream> \nusing namespace std; \n\nint func(int a, int b){\n\t//Write code here\n\treturn 0; \n}`)
           break;
         
         case 'c':
-          setDefaultCode(`#include <stdio.h> \nint main(){\n\treturn 0; \n}`)
+          setDefaultCode(`#include <stdio.h> \nint func(int a, int b){\n\t//Write code here\n\treturn 0; \n}`)
           break;
         
         case 'java':
-          setDefaultCode(`class MyApp\n{\n \tpublic static void main(String[] args)\n{\n\t\t System.out.println("Hello World");\n}\n}`)
+          setDefaultCode(`class MyApp\n{\n\tpublic static void main(String[] args)\n{\n\t\t//Write code here\n\t\tSystem.out.println("Hello World");\n}\n}`)
         
       }
   }, [selectedLang])
-
+  
   const submitProblem = async () => {
     try {
       const getAuth = localStorage.getItem('auth')
@@ -83,30 +85,32 @@ const ProblemDetails = () => {
         return;
       }
       setIsSubmitting(true);
-      const response = await fetch(`https://escode.up.railway.app/submission`, {
+      const response = await fetch('http://13.56.177.109:2358/submissions/?base64_encoded=false&wait=false', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "authorization": localStorage.getItem('auth')
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          problemId: pId,
-          submission: submission
+          source_code: submission,
+          language_id: 53
         })
-      });
+      })
+      console.log(submission);
 
-      if (!response.ok) {
-        throw new Error('Submission failed');
+      const responseJson = await response.json();
+      
+      const token = responseJson.token;
+
+      
+
+      if(token){
+        const updatedSubmissionsResponse = await fetch(`${PATH}/submissions/${pId}`, {
+          headers: { "authorization": localStorage.getItem('auth') }
+        });
+        const updatedSubmissionsData = await updatedSubmissionsResponse.json();
+        setSubmissions(updatedSubmissionsData.submissions);
       }
 
-      const result = await response.json();
-      alert(result.status);
-      // Refresh submissions after successful submission
-      const updatedSubmissionsResponse = await fetch(`https://escode.up.railway.app/submissions/${pId}`, {
-        headers: { "authorization": localStorage.getItem('auth') }
-      });
-      const updatedSubmissionsData = await updatedSubmissionsResponse.json();
-      setSubmissions(updatedSubmissionsData.submissions);
     } catch (err) {
       alert(`Error: ${err.message}`);
     } finally {
@@ -175,9 +179,9 @@ const ProblemDetails = () => {
           }}
           theme="vs-dark"
           className="min-w-full mt-1"
-          value={submission || defaultCode}
+          value={defaultCode}
           onChange={
-            (value) => setSubmission(value || '')
+            (value) => setSubmission(value)
           }
         />
       </div>

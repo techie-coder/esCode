@@ -4,7 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import { Icon } from 'react-icons-kit';
 import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye';
-
+import PATH from './PATH';
 
 const SignUp = () => {
 
@@ -28,7 +28,7 @@ const SignUp = () => {
   const handleSignup = async () => {
     try {
       localStorage.removeItem('auth');
-      const response = await fetch('https://escode.up.railway.app/signup', {
+      const response = await fetch(`${PATH}/signup`, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
       });

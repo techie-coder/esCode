@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';
+import PATH from './PATH'
 
 const ShowProblems = () => {
     const [problems, setProblems] = useState([]);
@@ -8,7 +9,7 @@ const ShowProblems = () => {
     useEffect(() => {
         const fetchProblems = async () => {
             try {
-                const response = await fetch('https://escode.up.railway.app/problems');
+                const response = await fetch(`${PATH}/problems`);
                 const json = await response.json();
                 setProblems(json);
             } catch (error) {
