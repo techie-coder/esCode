@@ -106,7 +106,7 @@ const ProblemDetails = () => {
       
       const responseJson = await response.json();
 
-      alert(responseJson.msg);
+      alert(`Test cases passed : ${responseJson.test_cases_passed}`);
 
       if(response){
         const updatedSubmissionsResponse = await fetch(`${PATH}/submissions/${pId}`, {
