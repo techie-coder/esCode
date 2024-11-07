@@ -4,6 +4,7 @@ import NavBar from './components/NavBar'
 import Editor from '@monaco-editor/react';
 import PATH from './PATH'
 
+
 const ProblemDetails = () => {
 
   const { pId } = useParams();
@@ -13,8 +14,8 @@ const ProblemDetails = () => {
   const [submission, setSubmission] = useState('');
   const [submissions, setSubmissions] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedLang, setSelectedLang] = useState('cpp');
-  const [defaultCode, setDefaultCode] = useState(`#include <iostream> \n using namespace std; \n\n int main(int a, int b){\n return 0; \n}`)
+  const [selectedLang, setSelectedLang] = useState('python');
+  const [defaultCode, setDefaultCode] = useState('')
 
   const navigate = useNavigate();
 
@@ -73,6 +74,10 @@ const ProblemDetails = () => {
         
         case 'java':
           setDefaultCode(`class MyApp\n{\n\tpublic static void main(String[] args)\n{\n\t\t//Write code here\n\t\tSystem.out.println("Hello World");\n}\n}`)
+          break;
+
+        default:
+          setDefaultCode(`print('Hello World')`)
         
       }
   }, [selectedLang])
@@ -85,25 +90,25 @@ const ProblemDetails = () => {
         return;
       }
       setIsSubmitting(true);
-      const response = await fetch('http://13.56.177.109:2358/submissions/?base64_encoded=false&wait=false', {
+      const response = await fetch('http://localhost:3000/submission', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "authorization": getAuth
         },
         body: JSON.stringify({
-          source_code: submission,
-          language_id: 53
+          submission,
+          problemId: pId,
         })
       })
+
       console.log(submission);
-
+      
       const responseJson = await response.json();
-      
-      const token = responseJson.token;
 
-      
+      alert(responseJson.msg);
 
-      if(token){
+      if(response){
         const updatedSubmissionsResponse = await fetch(`${PATH}/submissions/${pId}`, {
           headers: { "authorization": localStorage.getItem('auth') }
         });
@@ -159,6 +164,7 @@ const ProblemDetails = () => {
         <h1 className="manrope-400 text-2xl">Code</h1>
         <section className='text-md'>
           <select value={selectedLang} onChange={handleLang} className='bg-platinum border-[1.5px] border-black rounded-md mt-3'>
+          <option value="python">python</option>
           <option value="cpp">cpp</option>
           <option value="c">c</option>
           <option value="java">java</option>
