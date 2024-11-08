@@ -1,4 +1,3 @@
-//const PATH = 'https://escode.up.railway.app';
-const PATH = 'http://localhost:3000';
+const PATH = 'https://escode.up.railway.app';
 
 export default PATH;
