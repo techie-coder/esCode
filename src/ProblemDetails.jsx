@@ -70,7 +70,8 @@ const ProblemDetails = () => {
         return;
       }
       setIsSubmitting(true);
-      const response = await fetch(`${PATH}/submission`, {
+      
+      const response = await fetch(`${PATH}/submission/cpp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

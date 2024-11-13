@@ -1,5 +1,4 @@
 import React from 'react';
-import CircumIcon from "@klarr-agency/circum-icons-react"; 
 
 const NavBar = () => {
     return (
