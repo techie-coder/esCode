@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
             const fetchAura = async () => {
                 if(!isAuthenticated){
                     setAura(0);
+                    return;
                 }
 
                 try{
