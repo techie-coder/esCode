@@ -6,11 +6,12 @@ import { useAuth0 } from '@auth0/auth0-react';
 import PATH from './PATH';
 
 function LandingPage() {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, isLoading } = useAuth0();
   const { setAura } = useUser();
 
   useEffect(
     () => {
+      if(!isLoading){
       const fetchAura = async() => {
         const response = await fetch(`${PATH}/aura`, {
           method: "GET",
@@ -20,7 +21,7 @@ function LandingPage() {
           })
         })
 
-        const data = response.json();
+        const data = await response.json();
         setAura(data.aura || 0);
       }
       console.log(isAuthenticated);
@@ -28,7 +29,8 @@ function LandingPage() {
         fetchAura();
         console.log(user)
       }
-    }, [isAuthenticated, user.email, setAura, user]
+    }
+    }, [isAuthenticated, user.email, setAura, user, isLoading]
   )
 
   return (
