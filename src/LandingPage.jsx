@@ -1,8 +1,34 @@
 import {React, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom'
 import NavBar from './components/NavBar';
+import { useUser } from './UserContext';
+import { useAuth0 } from '@auth0/auth0-react';
+import PATH from './PATH';
 
 function LandingPage() {
+  const { isAuthenticated, user } = useAuth0();
+  const { setAura } = useUser();
+
+  useEffect(
+    () => {
+      const fetchAura = async() => {
+        const response = await fetch(`${PATH}/aura`, {
+          method: "GET",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            username: user.email
+          })
+        })
+
+        const data = response.json();
+        setAura(data.aura || 0);
+      }
+      if(isAuthenticated){
+        fetchAura();
+      }
+    }, [isAuthenticated, user.email, setAura]
+  )
+
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
@@ -13,6 +39,7 @@ function LandingPage() {
     </div>
   );
 }
+
 
 
 const Branding = () => {
