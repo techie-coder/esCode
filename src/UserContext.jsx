@@ -8,6 +8,7 @@ export const UserProvider = ({ children }) => {
     const [aura, setAura] = useState(0);
     
     const { isAuthenticated, user } = useAuth0();
+    console.log(user);
 
     useEffect(
         () => {
