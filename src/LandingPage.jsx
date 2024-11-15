@@ -23,10 +23,12 @@ function LandingPage() {
         const data = response.json();
         setAura(data.aura || 0);
       }
+      console.log(isAuthenticated);
       if(isAuthenticated){
         fetchAura();
+        console.log(user)
       }
-    }, [isAuthenticated, user.email, setAura]
+    }, [isAuthenticated, user.email, setAura, user]
   )
 
   return (
