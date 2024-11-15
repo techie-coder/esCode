@@ -51,7 +51,7 @@ const ProblemDetails = () => {
           break;
         
         case 'java':
-          setDefaultCode(`class MyApp\n{\n\tpublic static void main(String[] args)\n{\n\t\t//Write code here\n\t\tSystem.out.println("Hello World");\n}\n}`)
+          setDefaultCode(`public class Main\n{\n\tpublic static void main(String[] args)\n{\n\t\t//Write code here\n\t\tSystem.out.println("Hello World");\n}\n}`)
           break;
 
         default:
@@ -101,7 +101,7 @@ const ProblemDetails = () => {
           submission,
           langauge: selectedLang,
           problemId: pId,
-          username: user.username
+          username: user.email
         })
       })
 
