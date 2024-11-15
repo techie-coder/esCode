@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import NavBar from './components/NavBar'
 import Editor from '@monaco-editor/react';
 import PATH from './PATH'
 import TestCase from './components/TestCase';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 const ProblemDetails = () => {
+
+  const { isAuthenticated, loginWithPopup, user, getAccessTokenSilently } = useAuth0();
 
   const { pId } = useParams();
   const [problem, setProblem] = useState(null);
@@ -14,13 +17,12 @@ const ProblemDetails = () => {
   const [error, setError] = useState(null);
   const [submission, setSubmission] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedLang, setSelectedLang] = useState('python');
+  const [selectedLang, setSelectedLang] = useState('cpp');
   const [defaultCode, setDefaultCode] = useState('')
-
   const [failedCases, setFailedCases] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [accessToken, setAccessToken] = useState('');
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProblem = async () => {
@@ -48,25 +50,43 @@ const ProblemDetails = () => {
           setDefaultCode(`#include <iostream> \nusing namespace std; \n\nint func(int a, int b){\n\t//Write code here\n\treturn 0; \n}`)
           break;
         
-        case 'c':
-          setDefaultCode(`#include <stdio.h> \nint func(int a, int b){\n\t//Write code here\n\treturn 0; \n}`)
-          break;
-        
         case 'java':
           setDefaultCode(`class MyApp\n{\n\tpublic static void main(String[] args)\n{\n\t\t//Write code here\n\t\tSystem.out.println("Hello World");\n}\n}`)
           break;
 
         default:
-          setDefaultCode(`print('Hello World')`)
+          setDefaultCode(`#include <iostream> \nusing namespace std; \n\nint func(int a, int b){\n\t//Write code here\n\treturn 0; \n}`)
         
       }
   }, [selectedLang])
+
+  useEffect(
+    () => {
+      const getSubmissionToken = async() => {
+        if(!isAuthenticated)
+          return
+        
+        try{
+          const token = await getAccessTokenSilently({
+            authorizationParams: {
+              audience: `https://dev-skne2ots1cwlwxnk.us.auth0.com/api/v2/`,
+              scope: "read:current_user",
+            },
+          });
+          console.log(token); 
+          setAccessToken(token);
+        }catch(e){
+          console.log(e.message);
+        }
+      }
+      getSubmissionToken();
+    }, [getAccessTokenSilently, isAuthenticated]
+  )
   
   const submitProblem = async () => {
     try {
-      const getAuth = localStorage.getItem('auth')
-      if(!getAuth){
-        navigate('/login');
+      console.log(accessToken);
+      if(!accessToken){
         return;
       }
       setIsSubmitting(true);
@@ -75,11 +95,13 @@ const ProblemDetails = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "authorization": getAuth
+          Authorization: `Bearer ${accessToken}` 
         },
         body: JSON.stringify({
           submission,
+          langauge: selectedLang,
           problemId: pId,
+          username: user.username
         })
       })
 
@@ -129,9 +151,7 @@ const ProblemDetails = () => {
         <h1 className="manrope-400 text-2xl">Code</h1>
         <section className='text-md'>
           <select value={selectedLang} onChange={handleLang} className='bg-platinum border-[1.5px] border-black rounded-md mt-3'>
-          <option value="python">python</option>
           <option value="cpp">cpp</option>
-          <option value="c">c</option>
           <option value="java">java</option>
           </select>
         </section>
@@ -158,7 +178,7 @@ const ProblemDetails = () => {
       </div>
       <button 
           id='submit'  
-          onClick={submitProblem}
+          onClick={isAuthenticated ? submitProblem : () => loginWithPopup()}
           disabled={isSubmitting}
           className="p-2 bg-grey text-white rounded-md mt-5"
         >

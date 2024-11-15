@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';
+import { useAuth0 } from "@auth0/auth0-react";
 import PATH from './PATH'
 
 const ShowProblems = () => {
+    const { isAuthenticated } = useAuth0();
     const [problems, setProblems] = useState([]);
     const [displaySet, setDisplaySet] = useState('all');
 

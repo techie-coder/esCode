@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+/* import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import NavBar from './components/NavBar';
 import { Icon } from 'react-icons-kit';
@@ -108,3 +108,5 @@ const Login = () => {
 };
 
 export default Login;
+
+*/

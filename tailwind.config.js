@@ -13,6 +13,7 @@ module.exports = {
       'gray': '#808080',
       'platinum': '#F7F8FA',
       'platinum-50':'#f2f1ef',
+      'platinum-100': '#d3d3d3',
       'black': '#000000',
       'black-50':"#1b1b1b",
       'blue': '#007AFF',
