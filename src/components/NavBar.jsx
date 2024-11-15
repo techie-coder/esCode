@@ -3,10 +3,12 @@ import logo from '../../src/assets/logo.png';
 import profile from '../../src/assets/user.png'
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useUser } from '../UserContext';
 
 const NavBar = () => {
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading} = useAuth0();
-  const AURA = 0;
+
+  const { aura } = useUser();
 
   return (
       <nav className="px-32 flex justify-between items-center bg-white text-black border-b-2 border-platinum-50">
@@ -21,7 +23,7 @@ const NavBar = () => {
           </div>
           {isLoading ? (<></>) : (
             <div className='flex justify-center items-center space-x-4 manrope-400'>
-            {isAuthenticated ? (<><section className='text-yellow'>{AURA} AURA</section>
+            {isAuthenticated ? (<><section className='text-yellow'>{aura} AURA</section>
             <DropdownMenu.Root>
             <DropdownMenu.Trigger><img src={typeof user.picture=== "undefined" ? profile : user.picture} className='h-6 rounded-xl shadow'></img></DropdownMenu.Trigger>
             <DropdownMenu.Portal>
