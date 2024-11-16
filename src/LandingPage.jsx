@@ -11,6 +11,8 @@ function LandingPage() {
 
   useEffect(
     () => {
+      try{
+      console.log(user);
       if(!isLoading){
       const fetchAura = async() => {
         const response = await fetch(`${PATH}/aura`, {
@@ -27,8 +29,10 @@ function LandingPage() {
       console.log(isAuthenticated);
       if(isAuthenticated){
         fetchAura();
-        console.log(user)
       }
+    }
+    }catch(e){
+      console.log(e);
     }
     }, [isAuthenticated, user.email, setAura, user, isLoading]
   )

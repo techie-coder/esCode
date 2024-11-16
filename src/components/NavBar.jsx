@@ -34,7 +34,7 @@ const NavBar = () => {
                 <DropdownMenu.Item className='outline-none hover:text-black'><button className='px-4' onClick={() => logout({ logoutParams: { returnTo: 'http://localhost:5173/' } })}>Log Out</button></DropdownMenu.Item>
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
-          </DropdownMenu.Root></>) : (<button className="bg-platinum-50 hover:bg-platinum-100 px-[12px] py-[4px] rounded-lg" onClick={() => loginWithRedirect()}>Log In</button>)}
+          </DropdownMenu.Root></>) : (<button className="bg-platinum-50 hover:bg-platinum-100 px-[12px] py-[4px] rounded-lg" onClick={() => loginWithRedirect().then(()=>localStorage.setItem('username', user.email))}>Log In</button>)}
           </div>
           )}
           
