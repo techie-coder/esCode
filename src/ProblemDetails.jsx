@@ -101,7 +101,7 @@ const ProblemDetails = () => {
           submission,
           langauge: selectedLang,
           problemId: pId,
-          username: user.email
+          username: user.nickname
         })
       })
 

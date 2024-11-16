@@ -7,7 +7,7 @@ import ProblemDetails from './ProblemDetails';
 import Discuss from './Discuss';
 import Profile from './Profile';
 import Submissions from './Submissions';
-
+import Leaderboard from './Leaderboard';
 
 function App(){
 
@@ -21,6 +21,7 @@ function App(){
       <Route path='/discuss' element={<Discuss />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/submissions' element={<Submissions />} />
+      <Route path='/leaderboard' element={<Leaderboard />} />
     </Routes>
     </>
   )

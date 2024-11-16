@@ -24,6 +24,7 @@ module.exports = {
       'yellow': '#FFBF00',
       'green': '#008000',
       'red': '#FF0000',
+      'bright-orange': '#FFAC1C',
   },
     fontFamily: {
       'display' : ['Inter','sans-serif'],

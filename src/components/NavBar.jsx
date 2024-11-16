@@ -13,7 +13,7 @@ const NavBar = () => {
   useEffect(
     () => {
       const fetchAura = async() => {
-        const username = user.email;
+        const username = user.nickname;
         const data = await fetch(`${PATH}/aura/${username}`, {
           method: "GET",
         })
@@ -36,12 +36,12 @@ const NavBar = () => {
           <div id="navMenu" className="hidden justify-between items-center md:flex align-center text-md text-gray space-x-6 py-2 manrope-400">
           <a className="hover:text-grey" href="/problems">Problems</a>
           <a className="hover:text-grey" href="/discuss">Discuss</a>
-          <a className="hover:text-grey" href="/secure">Leaderboard</a>
+          <a className="hover:text-grey" href="/leaderboard">Leaderboard</a>
           </div>
           </div>
           {isLoading ? (<></>) : (
             <div className='flex justify-center items-center space-x-4 manrope-400'>
-            {isAuthenticated ? (<><section className='text-yellow'>{aura} AURA</section>
+            {isAuthenticated ? (<><section className='text-bright-orange dm-serif-text-regular text-xl'>{aura} AURA</section>
             <DropdownMenu.Root>
             <DropdownMenu.Trigger><img src={typeof user.picture=== "undefined" ? profile : user.picture} className='h-6 rounded-xl shadow'></img></DropdownMenu.Trigger>
             <DropdownMenu.Portal>
@@ -52,7 +52,7 @@ const NavBar = () => {
                 <DropdownMenu.Item className='outline-none hover:text-black'><button className='px-4' onClick={() => logout({ logoutParams: { returnTo: 'http://localhost:5173/' } }).then(() => localStorage.removeItem('username'))}>Log Out</button></DropdownMenu.Item>
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
-          </DropdownMenu.Root></>) : (<button className="bg-platinum-50 hover:bg-platinum-100 px-[12px] py-[4px] rounded-lg" onClick={() => loginWithRedirect().then(()=>localStorage.setItem('username', user.email))}>Log In</button>)}
+          </DropdownMenu.Root></>) : (<button className="bg-platinum-50 hover:bg-platinum-100 px-[12px] py-[4px] rounded-lg" onClick={() => loginWithRedirect().then(()=>localStorage.setItem('username', user.nickname))}>Log In</button>)}
           </div>
           )}
           

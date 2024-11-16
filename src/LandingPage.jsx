@@ -13,8 +13,6 @@ function LandingPage() {
   );
 }
 
-
-
 const Branding = () => {
 
   return (
