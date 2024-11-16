@@ -1,41 +1,6 @@
-import {React, useEffect, useState} from 'react';
 import {Link} from 'react-router-dom'
 import NavBar from './components/NavBar';
-import { useUser } from './UserContext';
-import { useAuth0 } from '@auth0/auth0-react';
-import PATH from './PATH';
-
 function LandingPage() {
-  const { isAuthenticated, user, isLoading } = useAuth0();
-  const { setAura } = useUser();
-
-  useEffect(
-    () => {
-      try{
-      console.log(user);
-      if(!isLoading){
-      const fetchAura = async() => {
-        const response = await fetch(`${PATH}/aura`, {
-          method: "GET",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            username: user.email
-          })
-        })
-
-        const data = await response.json();
-        setAura(data.aura || 0);
-      }
-      console.log(isAuthenticated);
-      if(isAuthenticated){
-        fetchAura();
-      }
-    }
-    }catch(e){
-      console.log(e);
-    }
-    }, [isAuthenticated, user.email, setAura, user, isLoading]
-  )
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -83,12 +48,5 @@ const Footer = () => {
     </footer>
   )
 }
-
-function getRandomInt(min, max) {
-  const minCeiled = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
-}
-
 
 export default LandingPage;

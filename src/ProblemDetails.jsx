@@ -5,7 +5,6 @@ import Editor from '@monaco-editor/react';
 import PATH from './PATH'
 import TestCase from './components/TestCase';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useUser } from './UserContext';
 
 
 const ProblemDetails = () => {
@@ -23,7 +22,6 @@ const ProblemDetails = () => {
   const [failedCases, setFailedCases] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [accessToken, setAccessToken] = useState('');
-  const { setAura } = useUser();
 
 
   useEffect(() => {
@@ -113,10 +111,6 @@ const ProblemDetails = () => {
       console.log(responseJson.aura)
       setFailedCases(responseJson.failedCases);
       setHasSubmitted(true);
-
-      if(responseJson.aura){
-        setAura(responseJson.aura);
-      }
 
       alert(`failed cases : ${failedCases}`);
 

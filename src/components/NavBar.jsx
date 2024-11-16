@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from '../../src/assets/logo.png';
 import profile from '../../src/assets/user.png'
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from '../UserContext';
+import PATH from '../PATH';
 
 const NavBar = () => {
   const { loginWithRedirect, logout, user, isAuthenticated, isLoading} = useAuth0();
+  const { aura, setAura } = useUser();
 
-  const { aura } = useUser();
+  useEffect(
+    () => {
+      const fetchAura = async() => {
+        const username = user.email;
+        const data = await fetch(`${PATH}/aura/${username}`, {
+          method: "GET",
+        })
+        
+        const aura = await data.json();
+        setAura(aura.aura)
+      }
+      if(!user)
+        return
+
+      fetchAura()
+    }, [user, setAura]
+  )
 
   return (
       <nav className="px-32 flex justify-between items-center bg-white text-black border-b-2 border-platinum-50">
@@ -31,7 +49,7 @@ const NavBar = () => {
               <DropdownMenu.Separator />
                 <DropdownMenu.Item className='outline-none hover:text-black'><a href="/profile" className='px-4 py-2'>Profile</a></DropdownMenu.Item>
                 <DropdownMenu.Item className='outline-none hover:text-black'><a href="/submissions" className='px-4 py-2'>Submissions</a></DropdownMenu.Item>
-                <DropdownMenu.Item className='outline-none hover:text-black'><button className='px-4' onClick={() => logout({ logoutParams: { returnTo: 'http://localhost:5173/' } })}>Log Out</button></DropdownMenu.Item>
+                <DropdownMenu.Item className='outline-none hover:text-black'><button className='px-4' onClick={() => logout({ logoutParams: { returnTo: 'http://localhost:5173/' } }).then(() => localStorage.removeItem('username'))}>Log Out</button></DropdownMenu.Item>
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root></>) : (<button className="bg-platinum-50 hover:bg-platinum-100 px-[12px] py-[4px] rounded-lg" onClick={() => loginWithRedirect().then(()=>localStorage.setItem('username', user.email))}>Log In</button>)}
