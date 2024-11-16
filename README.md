@@ -15,13 +15,13 @@ esCode is a platform for solving DSA questions. This project aims to allow users
   • This project is still under development
 
 **Contributing** <br/>
-  1.	Fork the repository.
-	2.	Create your branch (git checkout -b feature/your-feature).
-	3.	Commit your changes (git commit -m 'Add your feature').
-	4.	Push to the branch (git push origin feature/your-feature).
+  	1.	Fork the repository. <br/>
+	2.	Create your branch (git checkout -b feature/your-feature). <br/>
+	3.	Commit your changes (git commit -m 'Add your feature'). <br/>
+	4.	Push to the branch (git push origin feature/your-feature). <br/>
 	5.	Open a Pull Request.
 
-*Backend is here* - https://github.com/techie-coder/esCode-backend
+*Backend is here* - https://github.com/techie-coder/esCode-backend <br/>
 
 **Live** - https://es-code-client.vercel.app/
 
