@@ -13,13 +13,17 @@ const Profile = () => {
     {isLoading ? (<div>Loading...</div>) : (<></>)}
     {
         isAuthenticated ? (
-            <div>
+            <div className="bg-platinum min-h-screen space-y-10">
+              <h1 className="text-3xl manrope-700 pl-6 pt-6">Profile</h1>
+              <div className="ml-6 justify-start space-y-3 text-xl">
               <img src={user.picture} alt={user.name} />
               <h2>Name: {user.name}</h2>
               <p>nickname: {user.nickname}</p>
               <p></p>
               <p>Email: {user.email}</p>
               <section className="text-bright-orange">{aura} AURA</section>
+              </div>
+              
             </div>
           ) : (
             <button onClick={() => loginWithRedirect()}>Log In</button>

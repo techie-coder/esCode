@@ -42,14 +42,18 @@ const Submissions = () => {
     return(
         <>
         <NavBar/>
-        <h1 className="mt-4 manrope-700 text-2xl text-center">Submissions</h1>
-        <div className="flex justify-start items-center min-w-full">
-            {submissions.map((element, index) => (<div key={index} className="border-[0.1rem] border-black shadow">
+        <div className="bg-platinum min-h-screen">
+        <h1 className="pt-4 manrope-700 text-2xl text-center">Your Submissions</h1>
+        <div className="flex justify-start items-center mt-10">
+            {submissions.map((element, index) => (<div key={index} className="border-[0.01rem] border-platinum shadow manrope-400 mx-32 bg-white">
+                <section className="m-2 text-md">
                 <h1>Problem Id: {element.problem_id}</h1>
                 <h2>Source code: {element.source_code}</h2>
                 <h3>Test Cases Passed: {element.test_cases_passed}</h3>
                 <h4>Created At: {element.createdAt}</h4>
+                </section>
             </div>))}
+        </div>
         </div>
         </>
     )

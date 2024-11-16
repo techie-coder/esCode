@@ -3,7 +3,7 @@ import React, {createContext, useContext, useState} from 'react';
 const UserContext = createContext();
 
 export const UserProvider = ({children}) => {
-    const [aura, setAura] = useState(10);
+    const [aura, setAura] = useState(0);
 
     return(
         <UserContext.Provider value={{aura, setAura}}>
