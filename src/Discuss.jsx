@@ -85,6 +85,14 @@ const Discuss = () => {
       <NavBar />
       <div className="bg-platinum min-h-screen p-5">
         <h1 className="text-3xl manrope-700 text-center">Community Discussions</h1>
+        <div className="relative mx-20 flex justify-end mt-5">
+          <button
+            className="bg-blue border-[0.01rem] border-platinum text-white flex items-center justify-center text-xl shadow px-2 py-1 rounded-[0.4rem]"
+            onClick={() => setIsFormVisible(!isFormVisible)}
+          >
+            Create Post
+          </button>
+        </div>
         <div className="space-y-5 mt-5">
           {discussions.map((element, index) => {
             const pastDate = new Date(element.createdAt);
@@ -121,17 +129,9 @@ const Discuss = () => {
             );
           })}
         </div>
-        <div className="fixed bottom-5 right-5">
-          <button
-            className="bg-bright-orange text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl shadow-lg"
-            onClick={() => setIsFormVisible(!isFormVisible)}
-          >
-            +
-          </button>
-        </div>
         {isFormVisible && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 max-w-lg relative">
+            <div className="bg-white p-6 shadow-lg w-11/12 max-w-lg relative">
               <button
                 className="absolute top-3 right-3 text-black hover:text-gray text-2xl font-bold"
                 onClick={() => setIsFormVisible(false)}
@@ -160,13 +160,13 @@ const Discuss = () => {
               </label>
               <div className="flex justify-end">
                 <button
-                  className="bg-red-500 text-white rounded px-4 py-2 mr-2"
+                  className="bg-bright-orange text-white rounded px-4 py-2 mr-2"
                   onClick={() => setIsFormVisible(false)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="bg-blue-500 text-white rounded px-4 py-2"
+                  className="bg-bright-orange text-white rounded px-4 py-2"
                   onClick={handleSubmit}
                 >
                   Submit

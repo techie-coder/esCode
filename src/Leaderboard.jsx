@@ -32,9 +32,9 @@ const Leaderboard = () => {
                 </thead>
                 <tbody>
                 {leaderboard.map((element, index) => (<tr key={index} className={index % 2 == 0 ? "bg-platinum-50 text-black manrope-400 text-xl" : "bg-white text-black manrope-400 text-xl"}>
-                    <td className="px-10">{index+1}</td>
-                    <td className="px-10">{element.username} </td>
-                    <td className="px-10">{element.aura}</td>
+                    <td className={index === 0 ? "text-bright-orange px-10 py-5 text-left" : "px-10"}>{index+1}</td>
+                    <td className={index === 0 ? "text-bright-orange px-10 py-5 text-left" : "px-10"}>{element.username} </td>
+                    <td className={index === 0 ? "text-bright-orange px-10 py-5 text-left" : "px-10"}>{element.aura}</td>
                     </tr>))}
                 </tbody>
             </table>
