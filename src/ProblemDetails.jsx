@@ -22,6 +22,7 @@ const ProblemDetails = () => {
   const [failedCases, setFailedCases] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [accessToken, setAccessToken] = useState('');
+  const [alertVisible, setAlertVisible] = useState(false)
 
 
   useEffect(() => {
@@ -82,6 +83,19 @@ const ProblemDetails = () => {
       getSubmissionToken();
     }, [getAccessTokenSilently, isAuthenticated]
   )
+
+  useEffect(
+    () => {
+      if(hasSubmitted)
+        setAlertVisible(true)
+
+      const timeoutId = setTimeout(() => {
+        setAlertVisible(false);
+      }, 5000);
+
+      return () => setTimeout(timeoutId);
+    }, [hasSubmitted]
+  )
   
   const submitProblem = async () => {
     try {
@@ -111,11 +125,10 @@ const ProblemDetails = () => {
       console.log(responseJson.aura)
       setFailedCases(responseJson.failedCases);
       setHasSubmitted(true);
-
-      alert(`failed cases : ${failedCases}`);
+      console.log(failedCases)
 
     } catch (err) {
-      alert(`Error: ${err.message}`);
+      console.log(`Error: ${err.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -130,6 +143,7 @@ const ProblemDetails = () => {
   }
   
   const testCases = problem.testCases;
+
 
   return (
     <>
@@ -187,6 +201,15 @@ const ProblemDetails = () => {
         </button>
       </section>
     </grid>
+    {alertVisible && (
+      <div className='fixed bg-black bg-opacity-50 inset-0 flex justify-center items-center'>
+        <div className='bg-blue text-white shadow-lg max-w-lg relative rounded-sm'>
+          <section className='p-4 text-xl'>
+            {failedCases.length > 0 ? `You failed cases : ${failedCases.slice(0,3)}` : 'You passed all test cases!'}
+          </section>
+        </div>
+      </div>
+    )}
     </>
   );
 };

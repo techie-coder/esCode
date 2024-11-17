@@ -44,7 +44,7 @@ const Submissions = () => {
         <NavBar/>
         <div className="bg-platinum min-h-screen">
         <h1 className="pt-4 manrope-700 text-2xl text-center">Your Submissions</h1>
-        <div className="flex justify-start items-center mt-10">
+        <div className="justify-start items-center mt-10 space-y-2">
             {submissions.map((element, index) => (<div key={index} className="border-[0.01rem] border-platinum shadow manrope-400 mx-32 bg-white">
                 <section className="m-2 text-md">
                 <h1>Problem Id: {element.problem_id}</h1>
