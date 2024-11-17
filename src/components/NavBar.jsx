@@ -63,7 +63,7 @@ const NavBar = () => {
               <DropdownMenu.Separator />
                 <DropdownMenu.Item className='outline-none hover:text-black'><a href="/profile" className='px-4 py-2'>Profile</a></DropdownMenu.Item>
                 <DropdownMenu.Item className='outline-none hover:text-black'><a href="/submissions" className='px-4 py-2'>Submissions</a></DropdownMenu.Item>
-                <DropdownMenu.Item className='outline-none hover:text-black'><button className='px-4' onClick={() => logout({ logoutParams: { returnTo: 'http://localhost:5173/' } }).then(() => localStorage.removeItem('username'))}>Log Out</button></DropdownMenu.Item>
+                <DropdownMenu.Item className='outline-none hover:text-black'><button className='px-4' onClick={() => logout({ logoutParams: { returnTo: `https://es-code-client.vercel.app/` } }).then(() => localStorage.removeItem('username'))}>Log Out</button></DropdownMenu.Item>
               </DropdownMenu.Content>
             </DropdownMenu.Portal>
           </DropdownMenu.Root></>) : (<button className="bg-platinum-50 hover:bg-platinum-100 px-[12px] py-[4px] rounded-lg" onClick={() => loginWithRedirect().then(()=>localStorage.setItem('username', user.nickname))}>Log In</button>)}
